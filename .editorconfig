@@ -1,0 +1,9 @@
+root = true
+
+[*]
+indent_style = tab							# Tab как отступ
+indent_size = 2									# отступ в размере двух символов
+end_of_line = lf								# Unix стиль переноса строк
+charset = utf-8									#
+trim_trailing_whitespace = true	# убирает лишние пробелы в конце строки
+insert_final_newline = true			# пустая строка в конце файла
