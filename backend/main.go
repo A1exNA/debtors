@@ -15,11 +15,20 @@ func main() {
 		fmt.Println(conn)
 	}
 
-	res, err := housesRepository.GetAllHouses(conn)
+	resG, err := housesRepository.GetAllHouses(conn)
 
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		fmt.Println(res)
+		fmt.Println(resG)
 	}
+
+	// resC, err := housesRepository.CreateHouse(conn, "Тестовый дом, Test house", true)
+	//
+	//	if err != nil {
+	//		fmt.Println(err)
+	//	} else {
+	//
+	//		fmt.Println(resC)
+	//	}
 }
