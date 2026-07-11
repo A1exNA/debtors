@@ -1,29 +1,24 @@
-package housesRepository
+package repository
 
 import (
 	"context"
+	"debtors/dto"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 )
 
-type House struct {
-	Id         int
-	Address    string
-	IsServiced bool
-}
-
-func GetAllHouses(conn *pgx.Conn) ([]House, error) {
+func GetAllHouses(conn *pgx.Conn) ([]dto.House, error) {
 	resp, err := conn.Query(context.Background(), "SELECT * FROM houses")
 
 	if err != nil {
 		return nil, err
 	}
 
-	houses := []House{}
+	houses := []dto.House{}
 
 	for resp.Next() {
-		house := House{}
+		house := dto.House{}
 		resp.Scan(&house.Id, &house.Address, &house.IsServiced)
 		houses = append(houses, house)
 	}

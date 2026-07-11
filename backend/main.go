@@ -1,13 +1,14 @@
 package main
 
 import (
-	dbConnection "debtors/db"
-	housesRepository "debtors/repository"
+	"debtors/db"
+	"debtors/handler"
 	"fmt"
+	"net/http"
 )
 
 func main() {
-	conn, err := dbConnection.Connect()
+	conn, err := db.Connect()
 
 	if err != nil {
 		fmt.Println(err)
@@ -15,20 +16,7 @@ func main() {
 		fmt.Println(conn)
 	}
 
-	resG, err := housesRepository.GetAllHouses(conn)
-
-	if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(resG)
-	}
-
-	// resC, err := housesRepository.CreateHouse(conn, "Тестовый дом, Test house", true)
-	//
-	//	if err != nil {
-	//		fmt.Println(err)
-	//	} else {
-	//
-	//		fmt.Println(resC)
-	//	}
+	handler := handler.Handlers{Conn: conn}
+	http.HandleFunc("/houses", handler.HousesHandler)
+	http.ListenAndServe(":8080", nil)
 }
