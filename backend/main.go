@@ -17,9 +17,16 @@ func main() {
 	}
 
 	handler := handler.Handlers{Conn: conn}
+
 	http.HandleFunc("POST /houses", handler.CreateHouseHandler)
 	http.HandleFunc("GET /houses", handler.ReadHouseHandler)
 	http.HandleFunc("PUT /houses", handler.UpdateHouseHandler)
 	http.HandleFunc("DELETE /houses", handler.DeleteHouseHandler)
+
+	http.HandleFunc("POST /accounts", handler.CreateAccountHandler)
+	http.HandleFunc("GET /accounts", handler.ReadAccountHandler)
+	http.HandleFunc("PUT /accounts", handler.UpdateAccountHandler)
+	http.HandleFunc("DELETE /accounts", handler.DeleteAccountHandler)
+
 	http.ListenAndServe(":8080", nil)
 }

@@ -8,18 +8,18 @@ import (
 	"debtors/repository"
 )
 
-func CreateHousesService(conn *pgx.Conn, address string, isServiced bool) (pgconn.CommandTag, error) {
-	return repository.CreateHouse(conn, address, isServiced)
+func CreateHouseService(conn *pgx.Conn, house dto.HouseCreate) (pgconn.CommandTag, error) {
+	return repository.CreateHouse(conn, house)
 }
 
-func ReadHousesService(conn *pgx.Conn) ([]dto.House, error) {
-	return repository.ReadAllHouses(conn)
+func ReadHouseService(conn *pgx.Conn) ([]dto.House, error) {
+	return repository.ReadHouses(conn)
 }
 
-func UpdateHousesService(conn *pgx.Conn, id int, address string, isServiced bool) (pgconn.CommandTag, error) {
-	return repository.UpdateHouse(conn, id, address, isServiced)
+func UpdateHouseService(conn *pgx.Conn, house dto.House) (pgconn.CommandTag, error) {
+	return repository.UpdateHouse(conn, house)
 }
 
-func DeleteHousesService(conn *pgx.Conn, id int) (pgconn.CommandTag, error) {
-	return repository.DeleteHouse(conn, id)
+func DeleteHouseService(conn *pgx.Conn, house dto.HouseDelete) (pgconn.CommandTag, error) {
+	return repository.DeleteHouse(conn, house)
 }

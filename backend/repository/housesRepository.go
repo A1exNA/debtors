@@ -8,8 +8,8 @@ import (
 	"github.com/jackc/pgx/v5/pgconn"
 )
 
-func CreateHouse(conn *pgx.Conn, address string, isServiced bool) (pgconn.CommandTag, error) {
-	resp, err := conn.Exec(context.Background(), "INSERT INTO houses (address, is_servised) VALUES ($1, $2)", address, isServiced)
+func CreateHouse(conn *pgx.Conn, house dto.HouseCreate) (pgconn.CommandTag, error) {
+	resp, err := conn.Exec(context.Background(), "INSERT INTO houses (address, is_servised) VALUES ($1, $2)", house.Address, house.IsServiced)
 
 	if err != nil {
 		return pgconn.CommandTag{}, err
@@ -18,8 +18,8 @@ func CreateHouse(conn *pgx.Conn, address string, isServiced bool) (pgconn.Comman
 	return resp, nil
 }
 
-func ReadAllHouses(conn *pgx.Conn) ([]dto.House, error) {
-	resp, err := conn.Query(context.Background(), "SELECT * FROM houses")
+func ReadHouses(conn *pgx.Conn) ([]dto.House, error) {
+	resp, err := conn.Query(context.Background(), "SELECT * FROM houses ORDER BY id ASC")
 
 	if err != nil {
 		return nil, err
@@ -36,8 +36,8 @@ func ReadAllHouses(conn *pgx.Conn) ([]dto.House, error) {
 	return houses, nil
 }
 
-func UpdateHouse(conn *pgx.Conn, id int, address string, isServiced bool) (pgconn.CommandTag, error) {
-	resp, err := conn.Exec(context.Background(), "UPDATE houses SET address = $2, is_servised = $3 WHERE id = $1", id, address, isServiced)
+func UpdateHouse(conn *pgx.Conn, house dto.House) (pgconn.CommandTag, error) {
+	resp, err := conn.Exec(context.Background(), "UPDATE houses SET address = $2, is_servised = $3 WHERE id = $1", house.Id, house.Address, house.IsServiced)
 
 	if err != nil {
 		return pgconn.CommandTag{}, err
@@ -46,8 +46,8 @@ func UpdateHouse(conn *pgx.Conn, id int, address string, isServiced bool) (pgcon
 	return resp, nil
 }
 
-func DeleteHouse(conn *pgx.Conn, id int) (pgconn.CommandTag, error) {
-	resp, err := conn.Exec(context.Background(), "DELETE FROM houses WHERE id = $1", id)
+func DeleteHouse(conn *pgx.Conn, house dto.HouseDelete) (pgconn.CommandTag, error) {
+	resp, err := conn.Exec(context.Background(), "DELETE FROM houses WHERE id = $1", house.Id)
 
 	if err != nil {
 		return pgconn.CommandTag{}, err

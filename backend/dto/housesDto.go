@@ -1,16 +1,15 @@
 package dto
 
 type House struct {
-	Id         int
-	Address    string
-	IsServiced bool
+	HouseDelete
+	HouseCreate
 }
 
 type HouseCreate struct {
-	Address    string
-	IsServiced bool
+	Address    string `json:"address"`
+	IsServiced bool   `json:"isServiced"`
 }
 
 type HouseDelete struct {
-	Id int
+	Id int `json:"id"`
 }
