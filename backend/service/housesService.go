@@ -8,12 +8,12 @@ import (
 	"debtors/repository"
 )
 
-func GetHousesService(conn *pgx.Conn) ([]dto.House, error) {
-	return repository.GetAllHouses(conn)
-}
-
 func CreateHousesService(conn *pgx.Conn, address string, isServiced bool) (pgconn.CommandTag, error) {
 	return repository.CreateHouse(conn, address, isServiced)
+}
+
+func ReadHousesService(conn *pgx.Conn) ([]dto.House, error) {
+	return repository.ReadAllHouses(conn)
 }
 
 func UpdateHousesService(conn *pgx.Conn, id int, address string, isServiced bool) (pgconn.CommandTag, error) {

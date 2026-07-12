@@ -8,7 +8,17 @@ import (
 	"github.com/jackc/pgx/v5/pgconn"
 )
 
-func GetAllHouses(conn *pgx.Conn) ([]dto.House, error) {
+func CreateHouse(conn *pgx.Conn, address string, isServiced bool) (pgconn.CommandTag, error) {
+	resp, err := conn.Exec(context.Background(), "INSERT INTO houses (address, is_servised) VALUES ($1, $2)", address, isServiced)
+
+	if err != nil {
+		return pgconn.CommandTag{}, err
+	}
+
+	return resp, nil
+}
+
+func ReadAllHouses(conn *pgx.Conn) ([]dto.House, error) {
 	resp, err := conn.Query(context.Background(), "SELECT * FROM houses")
 
 	if err != nil {
@@ -24,16 +34,6 @@ func GetAllHouses(conn *pgx.Conn) ([]dto.House, error) {
 	}
 
 	return houses, nil
-}
-
-func CreateHouse(conn *pgx.Conn, address string, isServiced bool) (pgconn.CommandTag, error) {
-	resp, err := conn.Exec(context.Background(), "INSERT INTO houses (address, is_servised) VALUES ($1, $2)", address, isServiced)
-
-	if err != nil {
-		return pgconn.CommandTag{}, err
-	}
-
-	return resp, nil
 }
 
 func UpdateHouse(conn *pgx.Conn, id int, address string, isServiced bool) (pgconn.CommandTag, error) {

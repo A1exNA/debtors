@@ -7,77 +7,91 @@ import (
 	"net/http"
 )
 
-func (h *Handlers) HousesHandler(w http.ResponseWriter, r *http.Request) {
-	switch r.Method {
-	case "GET":
-		resp, err := service.GetHousesService(h.Conn)
+func (h *Handlers) CreateHouseHandler(w http.ResponseWriter, r *http.Request) {
+	house := dto.HouseCreate{}
 
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
+	err := json.NewDecoder(r.Body).Decode(&house)
 
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(resp)
+	if err != nil {
+		response := dto.Response{Status: "error", Data: err.Error()}
+		writeJSON(w, response)
 
-	case "POST":
-		house := dto.HouseCreate{}
-
-		err := json.NewDecoder(r.Body).Decode(&house)
-
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		resp, err := service.CreateHousesService(h.Conn, house.Address, house.IsServiced)
-
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(resp)
-
-	case "PUT":
-		house := dto.House{}
-
-		err := json.NewDecoder(r.Body).Decode(&house)
-
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		resp, err := service.UpdateHousesService(h.Conn, house.Id, house.Address, house.IsServiced)
-
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(resp)
-
-	case "DELETE":
-		house := dto.HouseDelete{}
-
-		err := json.NewDecoder(r.Body).Decode(&house)
-
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		resp, err := service.DeleteHousesService(h.Conn, house.Id)
-
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(resp)
+		return
 	}
+
+	resp, err := service.CreateHousesService(h.Conn, house.Address, house.IsServiced)
+
+	if err != nil {
+		response := dto.Response{Status: "error", Data: err.Error()}
+		writeJSON(w, response)
+
+		return
+	}
+
+	response := dto.Response{Status: "success", Data: resp}
+	writeJSON(w, response)
+}
+
+func (h *Handlers) ReadHouseHandler(w http.ResponseWriter, r *http.Request) {
+	resp, err := service.ReadHousesService(h.Conn)
+
+	if err != nil {
+		response := dto.Response{Status: "error", Data: err.Error()}
+		writeJSON(w, response)
+
+		return
+	}
+
+	response := dto.Response{Status: "success", Data: resp}
+	writeJSON(w, response)
+}
+
+func (h *Handlers) UpdateHouseHandler(w http.ResponseWriter, r *http.Request) {
+	house := dto.House{}
+
+	err := json.NewDecoder(r.Body).Decode(&house)
+
+	if err != nil {
+		response := dto.Response{Status: "error", Data: err.Error()}
+		writeJSON(w, response)
+
+		return
+	}
+
+	resp, err := service.UpdateHousesService(h.Conn, house.Id, house.Address, house.IsServiced)
+
+	if err != nil {
+		response := dto.Response{Status: "error", Data: err.Error()}
+		writeJSON(w, response)
+
+		return
+	}
+
+	response := dto.Response{Status: "success", Data: resp}
+	writeJSON(w, response)
+}
+
+func (h *Handlers) DeleteHouseHandler(w http.ResponseWriter, r *http.Request) {
+	house := dto.HouseDelete{}
+
+	err := json.NewDecoder(r.Body).Decode(&house)
+
+	if err != nil {
+		response := dto.Response{Status: "error", Data: err.Error()}
+		writeJSON(w, response)
+
+		return
+	}
+
+	resp, err := service.DeleteHousesService(h.Conn, house.Id)
+
+	if err != nil {
+		response := dto.Response{Status: "error", Data: err.Error()}
+		writeJSON(w, response)
+
+		return
+	}
+
+	response := dto.Response{Status: "success", Data: resp}
+	writeJSON(w, response)
 }
