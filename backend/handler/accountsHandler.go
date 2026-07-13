@@ -19,6 +19,28 @@ func (h *Handlers) CreateAccountHandler(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
+	data := Data{
+		Value: Value{
+			AccountNumber:  &account.AccountNumber,
+			HouseId:        &account.HouseId,
+			PremisesType:   account.PremisesType,
+			PremisesNumber: account.PremisesNumber,
+			OwnerName:      account.OwnerName,
+			OwnerPhone:     account.OwnerPhone,
+		},
+		Valid: true,
+		Text:  "",
+	}
+
+	data = ValidateData(data)
+
+	if !data.Valid {
+		response := dto.Response{Status: "error", Data: data.Text}
+		writeJSON(w, response)
+
+		return
+	}
+
 	resp, err := service.CreateAccountService(h.Conn, account)
 
 	if err != nil {
@@ -58,6 +80,29 @@ func (h *Handlers) UpdateAccountHandler(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
+	data := Data{
+		Value: Value{
+			Id:             &account.Id,
+			AccountNumber:  &account.AccountNumber,
+			HouseId:        &account.HouseId,
+			PremisesType:   account.PremisesType,
+			PremisesNumber: account.PremisesNumber,
+			OwnerName:      account.OwnerName,
+			OwnerPhone:     account.OwnerPhone,
+		},
+		Valid: true,
+		Text:  "",
+	}
+
+	data = ValidateData(data)
+
+	if !data.Valid {
+		response := dto.Response{Status: "error", Data: data.Text}
+		writeJSON(w, response)
+
+		return
+	}
+
 	resp, err := service.UpdateAccountService(h.Conn, account)
 
 	if err != nil {
@@ -78,6 +123,23 @@ func (h *Handlers) DeleteAccountHandler(w http.ResponseWriter, r *http.Request) 
 
 	if err != nil {
 		response := dto.Response{Status: "error", Data: err.Error()}
+		writeJSON(w, response)
+
+		return
+	}
+
+	data := Data{
+		Value: Value{
+			Id: &account.Id,
+		},
+		Valid: true,
+		Text:  "",
+	}
+
+	data = ValidateData(data)
+
+	if !data.Valid {
+		response := dto.Response{Status: "error", Data: data.Text}
 		writeJSON(w, response)
 
 		return

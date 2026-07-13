@@ -19,6 +19,24 @@ func (h *Handlers) CreateDebtHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	data := Data{
+		Value: Value{
+			AccountNumber: &debt.AccountNumber,
+			ReportDate:    &debt.ReportDate,
+		},
+		Valid: true,
+		Text:  "",
+	}
+
+	data = ValidateData(data)
+
+	if !data.Valid {
+		response := dto.Response{Status: "error", Data: data.Text}
+		writeJSON(w, response)
+
+		return
+	}
+
 	resp, err := service.CreateDebtService(h.Conn, debt)
 
 	if err != nil {
@@ -58,6 +76,25 @@ func (h *Handlers) UpdateDebtHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	data := Data{
+		Value: Value{
+			Id:            &debt.Id,
+			AccountNumber: &debt.AccountNumber,
+			ReportDate:    &debt.ReportDate,
+		},
+		Valid: true,
+		Text:  "",
+	}
+
+	data = ValidateData(data)
+
+	if !data.Valid {
+		response := dto.Response{Status: "error", Data: data.Text}
+		writeJSON(w, response)
+
+		return
+	}
+
 	resp, err := service.UpdateDebtService(h.Conn, debt)
 
 	if err != nil {
@@ -78,6 +115,23 @@ func (h *Handlers) DeleteDebtHandler(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		response := dto.Response{Status: "error", Data: err.Error()}
+		writeJSON(w, response)
+
+		return
+	}
+
+	data := Data{
+		Value: Value{
+			Id: &debt.Id,
+		},
+		Valid: true,
+		Text:  "",
+	}
+
+	data = ValidateData(data)
+
+	if !data.Valid {
+		response := dto.Response{Status: "error", Data: data.Text}
 		writeJSON(w, response)
 
 		return
