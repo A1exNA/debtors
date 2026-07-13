@@ -3,6 +3,7 @@ package handler
 import (
 	"strings"
 	"time"
+	"unicode/utf8"
 )
 
 type Value struct {
@@ -35,6 +36,9 @@ func ValidateData(data Data) Data {
 		if *data.Address == "" {
 			data.Valid = false
 			data.Text = data.Text + "Address не введен. "
+		} else if utf8.RuneCountInString(*data.Address) > 50 {
+			data.Valid = false
+			data.Text = data.Text + "Address слишком длинный. "
 		}
 	}
 
@@ -42,6 +46,9 @@ func ValidateData(data Data) Data {
 		if *data.AccountNumber == "" {
 			data.Valid = false
 			data.Text = data.Text + "AccountNumber не введен. "
+		} else if utf8.RuneCountInString(*data.AccountNumber) > 10 {
+			data.Valid = false
+			data.Text = data.Text + "AccountNumber слишком длинный. "
 		}
 	}
 
@@ -56,6 +63,9 @@ func ValidateData(data Data) Data {
 		if *data.PremisesType == "" {
 			data.Valid = false
 			data.Text = data.Text + "PremisesType не введен. "
+		} else if utf8.RuneCountInString(*data.PremisesType) > 15 {
+			data.Valid = false
+			data.Text = data.Text + "PremisesType слишком длинный. "
 		}
 	}
 
@@ -63,6 +73,9 @@ func ValidateData(data Data) Data {
 		if *data.PremisesNumber == "" {
 			data.Valid = false
 			data.Text = data.Text + "PremisesNumber не введен. "
+		} else if utf8.RuneCountInString(*data.PremisesNumber) > 10 {
+			data.Valid = false
+			data.Text = data.Text + "PremisesNumber слишком длинный. "
 		}
 	}
 
@@ -70,6 +83,9 @@ func ValidateData(data Data) Data {
 		if *data.OwnerName == "" {
 			data.Valid = false
 			data.Text = data.Text + "OwnerName не введен. "
+		} else if utf8.RuneCountInString(*data.OwnerName) > 100 {
+			data.Valid = false
+			data.Text = data.Text + "OwnerName слишком длинный. "
 		}
 	}
 
@@ -77,6 +93,9 @@ func ValidateData(data Data) Data {
 		if *data.OwnerPhone == "" {
 			data.Valid = false
 			data.Text = data.Text + "OwnerPhone не введен. "
+		} else if utf8.RuneCountInString(*data.OwnerPhone) > 15 {
+			data.Valid = false
+			data.Text = data.Text + "OwnerPhone слишком длинный. "
 		}
 	}
 
