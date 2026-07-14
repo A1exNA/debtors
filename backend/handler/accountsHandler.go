@@ -19,8 +19,8 @@ func (h *Handlers) CreateAccountHandler(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	data := Data{
-		Value: Value{
+	data := dto.DataAccount{
+		ValueAccount: dto.ValueAccount{
 			AccountNumber:  &account.AccountNumber,
 			HouseId:        &account.HouseId,
 			PremisesType:   account.PremisesType,
@@ -32,16 +32,16 @@ func (h *Handlers) CreateAccountHandler(w http.ResponseWriter, r *http.Request) 
 		Text:  "",
 	}
 
-	data = ValidateData(data)
+	err = ValidateDataAccount(data)
 
-	if !data.Valid {
-		response := dto.Response{Status: "error", Data: data.Text}
+	if err != nil {
+		response := dto.Response{Status: "error", Data: err.Error()}
 		writeJSON(w, response)
 
 		return
 	}
 
-	resp, err := service.CreateAccountService(h.Conn, account)
+	resp, err := service.CreateAccountService(h.Conn, account, data)
 
 	if err != nil {
 		response := dto.Response{Status: "error", Data: err.Error()}
@@ -80,8 +80,8 @@ func (h *Handlers) UpdateAccountHandler(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	data := Data{
-		Value: Value{
+	data := dto.DataAccount{
+		ValueAccount: dto.ValueAccount{
 			Id:             &account.Id,
 			AccountNumber:  &account.AccountNumber,
 			HouseId:        &account.HouseId,
@@ -94,16 +94,16 @@ func (h *Handlers) UpdateAccountHandler(w http.ResponseWriter, r *http.Request) 
 		Text:  "",
 	}
 
-	data = ValidateData(data)
+	err = ValidateDataAccount(data)
 
-	if !data.Valid {
-		response := dto.Response{Status: "error", Data: data.Text}
+	if err != nil {
+		response := dto.Response{Status: "error", Data: err.Error()}
 		writeJSON(w, response)
 
 		return
 	}
 
-	resp, err := service.UpdateAccountService(h.Conn, account)
+	resp, err := service.UpdateAccountService(h.Conn, account, data)
 
 	if err != nil {
 		response := dto.Response{Status: "error", Data: err.Error()}
@@ -128,24 +128,24 @@ func (h *Handlers) DeleteAccountHandler(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	data := Data{
-		Value: Value{
+	data := dto.DataAccount{
+		ValueAccount: dto.ValueAccount{
 			Id: &account.Id,
 		},
 		Valid: true,
 		Text:  "",
 	}
 
-	data = ValidateData(data)
+	err = ValidateDataAccount(data)
 
-	if !data.Valid {
-		response := dto.Response{Status: "error", Data: data.Text}
+	if err != nil {
+		response := dto.Response{Status: "error", Data: err.Error()}
 		writeJSON(w, response)
 
 		return
 	}
 
-	resp, err := service.DeleteAccountService(h.Conn, account)
+	resp, err := service.DeleteAccountService(h.Conn, account, data)
 
 	if err != nil {
 		response := dto.Response{Status: "error", Data: err.Error()}

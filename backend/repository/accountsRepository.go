@@ -18,7 +18,7 @@ func CreateAccount(conn *pgx.Conn, account dto.AccountCreate) (pgconn.CommandTag
 	return resp, nil
 }
 
-func ReadAccount(conn *pgx.Conn) ([]dto.Account, error) {
+func ReadAccounts(conn *pgx.Conn) ([]dto.Account, error) {
 	resp, err := conn.Query(context.Background(), "SELECT * FROM accounts ORDER BY account_number ASC")
 
 	if err != nil {

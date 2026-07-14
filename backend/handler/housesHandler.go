@@ -19,18 +19,18 @@ func (h *Handlers) CreateHouseHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := Data{
-		Value: Value{
+	data := dto.DataHouse{
+		ValueHouse: dto.ValueHouse{
 			Address: &house.Address,
 		},
 		Valid: true,
 		Text:  "",
 	}
 
-	data = ValidateData(data)
+	err = ValidateDataHouse(data)
 
-	if !data.Valid {
-		response := dto.Response{Status: "error", Data: data.Text}
+	if err != nil {
+		response := dto.Response{Status: "error", Data: err.Error()}
 		writeJSON(w, response)
 
 		return
@@ -75,25 +75,26 @@ func (h *Handlers) UpdateHouseHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := Data{
-		Value: Value{
-			Id:      &house.Id,
-			Address: &house.Address,
+	data := dto.DataHouse{
+		ValueHouse: dto.ValueHouse{
+			Id:         &house.Id,
+			Address:    &house.Address,
+			IsServiced: &house.IsServiced,
 		},
 		Valid: true,
 		Text:  "",
 	}
 
-	data = ValidateData(data)
+	err = ValidateDataHouse(data)
 
-	if !data.Valid {
-		response := dto.Response{Status: "error", Data: data.Text}
+	if err != nil {
+		response := dto.Response{Status: "error", Data: err.Error()}
 		writeJSON(w, response)
 
 		return
 	}
 
-	resp, err := service.UpdateHouseService(h.Conn, house)
+	resp, err := service.UpdateHouseService(h.Conn, house, data)
 
 	if err != nil {
 		response := dto.Response{Status: "error", Data: err.Error()}
@@ -118,24 +119,24 @@ func (h *Handlers) DeleteHouseHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := Data{
-		Value: Value{
+	data := dto.DataHouse{
+		ValueHouse: dto.ValueHouse{
 			Id: &house.Id,
 		},
 		Valid: true,
 		Text:  "",
 	}
 
-	data = ValidateData(data)
+	err = ValidateDataHouse(data)
 
-	if !data.Valid {
-		response := dto.Response{Status: "error", Data: data.Text}
+	if err != nil {
+		response := dto.Response{Status: "error", Data: err.Error()}
 		writeJSON(w, response)
 
 		return
 	}
 
-	resp, err := service.DeleteHouseService(h.Conn, house)
+	resp, err := service.DeleteHouseService(h.Conn, house, data)
 
 	if err != nil {
 		response := dto.Response{Status: "error", Data: err.Error()}
