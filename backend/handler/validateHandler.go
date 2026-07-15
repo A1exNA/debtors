@@ -133,34 +133,6 @@ func ValidateDataDebt(debt dto.DataDebt) error {
 		}
 	}
 
-	if debt.OpeningBalance != nil {
-		if *debt.OpeningBalance == 0 {
-			debt.Valid = false
-			debt.Text = debt.Text + "OpeningBalance не введен. "
-		}
-	}
-
-	if debt.Accrued != nil {
-		if *debt.Accrued == 0 {
-			debt.Valid = false
-			debt.Text = debt.Text + "OpeningBalance не введен. "
-		}
-	}
-
-	if debt.Paid != nil {
-		if *debt.Paid == 0 {
-			debt.Valid = false
-			debt.Text = debt.Text + "OpeningBalance не введен. "
-		}
-	}
-
-	if debt.ClosingBalance != nil {
-		if *debt.ClosingBalance == 0 {
-			debt.Valid = false
-			debt.Text = debt.Text + "ClosingBalance не введен. "
-		}
-	}
-
 	debt.Text = strings.TrimSpace(debt.Text)
 
 	if debt.Text != "" {
