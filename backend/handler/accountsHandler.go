@@ -19,7 +19,29 @@ func (h *Handlers) CreateAccountHandler(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	resp, err := service.CreateAccountService(h.Conn, account)
+	data := dto.DataAccount{
+		ValueAccount: dto.ValueAccount{
+			AccountNumber:  &account.AccountNumber,
+			HouseId:        &account.HouseId,
+			PremisesType:   account.PremisesType,
+			PremisesNumber: account.PremisesNumber,
+			OwnerName:      account.OwnerName,
+			OwnerPhone:     account.OwnerPhone,
+		},
+		Valid: true,
+		Text:  "",
+	}
+
+	err = ValidateDataAccount(data)
+
+	if err != nil {
+		response := dto.Response{Status: "error", Data: err.Error()}
+		writeJSON(w, response)
+
+		return
+	}
+
+	resp, err := service.CreateAccountService(h.Conn, account, data)
 
 	if err != nil {
 		response := dto.Response{Status: "error", Data: err.Error()}
@@ -58,7 +80,30 @@ func (h *Handlers) UpdateAccountHandler(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	resp, err := service.UpdateAccountService(h.Conn, account)
+	data := dto.DataAccount{
+		ValueAccount: dto.ValueAccount{
+			Id:             &account.Id,
+			AccountNumber:  &account.AccountNumber,
+			HouseId:        &account.HouseId,
+			PremisesType:   account.PremisesType,
+			PremisesNumber: account.PremisesNumber,
+			OwnerName:      account.OwnerName,
+			OwnerPhone:     account.OwnerPhone,
+		},
+		Valid: true,
+		Text:  "",
+	}
+
+	err = ValidateDataAccount(data)
+
+	if err != nil {
+		response := dto.Response{Status: "error", Data: err.Error()}
+		writeJSON(w, response)
+
+		return
+	}
+
+	resp, err := service.UpdateAccountService(h.Conn, account, data)
 
 	if err != nil {
 		response := dto.Response{Status: "error", Data: err.Error()}
@@ -83,7 +128,24 @@ func (h *Handlers) DeleteAccountHandler(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	resp, err := service.DeleteAccountService(h.Conn, account)
+	data := dto.DataAccount{
+		ValueAccount: dto.ValueAccount{
+			Id: &account.Id,
+		},
+		Valid: true,
+		Text:  "",
+	}
+
+	err = ValidateDataAccount(data)
+
+	if err != nil {
+		response := dto.Response{Status: "error", Data: err.Error()}
+		writeJSON(w, response)
+
+		return
+	}
+
+	resp, err := service.DeleteAccountService(h.Conn, account, data)
 
 	if err != nil {
 		response := dto.Response{Status: "error", Data: err.Error()}

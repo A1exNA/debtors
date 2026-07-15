@@ -18,7 +18,7 @@ func CreateDebt(conn *pgx.Conn, debt dto.DebtCreate) (pgconn.CommandTag, error) 
 	return resp, nil
 }
 
-func ReadDebt(conn *pgx.Conn) ([]dto.Debt, error) {
+func ReadDebts(conn *pgx.Conn) ([]dto.Debt, error) {
 	resp, err := conn.Query(context.Background(), "SELECT * FROM debts ORDER BY id ASC")
 
 	if err != nil {
