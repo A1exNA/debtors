@@ -81,6 +81,12 @@ func ValidateDataAccountCreate(conn *pgx.Conn, account dto.DataAccount) error {
 		return err
 	}
 
+	accounts, err := repository.ReadAccounts(conn)
+
+	if err != nil {
+		return err
+	}
+
 	validHomeId := "Такого Дома нет. "
 	account.Valid = false
 
@@ -91,6 +97,13 @@ func ValidateDataAccountCreate(conn *pgx.Conn, account dto.DataAccount) error {
 
 		validHomeId = ""
 		account.Valid = true
+
+		for _, value := range accounts {
+			if value.Number == *account.Number {
+				account.Text = "Такой лицевой счет уже есть. "
+				account.Valid = false
+			}
+		}
 
 		break
 	}
@@ -139,7 +152,7 @@ func ValidateDataAccountUpdate(conn *pgx.Conn, account dto.DataAccount) error {
 			break
 		}
 
-		if value.AccountNumber == *account.AccountNumber &&
+		if value.Number == *account.Number &&
 			value.HouseId == *account.HouseId &&
 			(value.PremisesType == nil && account.PremisesType == nil ||
 				value.PremisesType != nil && account.PremisesType != nil && *value.PremisesType == *account.PremisesType) &&
@@ -208,7 +221,7 @@ func ValidateDataDebtCreate(conn *pgx.Conn, debt dto.DataDebt) error {
 	debt.Valid = false
 
 	for _, value := range accounts {
-		if value.AccountNumber != *debt.AccountNumber {
+		if value.Number != *debt.AccountNumber {
 			continue
 		}
 
@@ -252,7 +265,7 @@ func ValidateDataDebtUpdate(conn *pgx.Conn, debt dto.DataDebt) error {
 		validAccountNumber := "Такого Лицевого счета нет. "
 
 		for _, value := range accounts {
-			if value.AccountNumber != *debt.AccountNumber {
+			if value.Number != *debt.AccountNumber {
 				continue
 			}
 
@@ -262,7 +275,7 @@ func ValidateDataDebtUpdate(conn *pgx.Conn, debt dto.DataDebt) error {
 			break
 		}
 
-		if value.AccountNumber == *debt.AccountNumber && value.ReportDate.Equal(*debt.ReportDate) && value.OpeningBalance == *debt.OpeningBalance && value.Accrued == *debt.Accrued && value.Paid == *debt.Paid && value.ClosingBalance == *debt.ClosingBalance {
+		if value.AccountNumber == *debt.AccountNumber && value.OpeningBalance == *debt.OpeningBalance && value.Accrued == *debt.Accrued && value.Paid == *debt.Paid && value.ClosingBalance == *debt.ClosingBalance {
 			debt.Text = debt.Text + "Данные не изменились. "
 			debt.Valid = false
 		}

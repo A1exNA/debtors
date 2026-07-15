@@ -21,7 +21,7 @@ func (h *Handlers) CreateAccountHandler(w http.ResponseWriter, r *http.Request) 
 
 	data := dto.DataAccount{
 		ValueAccount: dto.ValueAccount{
-			AccountNumber:  &account.AccountNumber,
+			Number:         &account.Number,
 			HouseId:        &account.HouseId,
 			PremisesType:   account.PremisesType,
 			PremisesNumber: account.PremisesNumber,
@@ -83,7 +83,7 @@ func (h *Handlers) UpdateAccountHandler(w http.ResponseWriter, r *http.Request) 
 	data := dto.DataAccount{
 		ValueAccount: dto.ValueAccount{
 			Id:             &account.Id,
-			AccountNumber:  &account.AccountNumber,
+			Number:         &account.Number,
 			HouseId:        &account.HouseId,
 			PremisesType:   account.PremisesType,
 			PremisesNumber: account.PremisesNumber,

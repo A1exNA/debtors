@@ -42,13 +42,10 @@ func ValidateDataAccount(account dto.DataAccount) error {
 		}
 	}
 
-	if account.AccountNumber != nil {
-		if *account.AccountNumber == "" {
+	if account.Number != nil {
+		if *account.Number == 0 {
 			account.Valid = false
 			account.Text = account.Text + "AccountNumber не введен. "
-		} else if utf8.RuneCountInString(*account.AccountNumber) > 10 {
-			account.Valid = false
-			account.Text = account.Text + "AccountNumber слишком длинный. "
 		}
 	}
 
@@ -117,19 +114,9 @@ func ValidateDataDebt(debt dto.DataDebt) error {
 	}
 
 	if debt.AccountNumber != nil {
-		if *debt.AccountNumber == "" {
+		if *debt.AccountNumber == 0 {
 			debt.Valid = false
 			debt.Text = debt.Text + "AccountNumber не введен. "
-		} else if utf8.RuneCountInString(*debt.AccountNumber) > 10 {
-			debt.Valid = false
-			debt.Text = debt.Text + "AccountNumber слишком длинный. "
-		}
-	}
-
-	if debt.ReportDate != nil {
-		if debt.ReportDate.IsZero() {
-			debt.Valid = false
-			debt.Text = debt.Text + "Некорректная дата. "
 		}
 	}
 

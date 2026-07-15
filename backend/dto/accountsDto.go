@@ -6,7 +6,7 @@ type Account struct {
 }
 
 type AccountCreate struct {
-	AccountNumber  string  `json:"accountNumber"`
+	Number         int     `json:"number"`
 	HouseId        int     `json:"houseId"`
 	PremisesType   *string `json:"premisesType"`
 	PremisesNumber *string `json:"premisesNumber"`

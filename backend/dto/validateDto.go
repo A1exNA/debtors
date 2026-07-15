@@ -26,7 +26,7 @@ type DataAccount struct {
 
 type ValueAccount struct {
 	Id             *int
-	AccountNumber  *string
+	Number         *int
 	HouseId        *int
 	PremisesType   *string
 	PremisesNumber *string
@@ -42,7 +42,7 @@ type DataDebt struct {
 
 type ValueDebt struct {
 	Id             *int
-	AccountNumber  *string
+	AccountNumber  *int
 	ReportDate     *time.Time
 	OpeningBalance *float64
 	Accrued        *float64

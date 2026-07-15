@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
+import AccountCreateModal from "../../../features/CreateModal/ui/AccountCreateModal"
 
 interface Account {
 	id: number
-	accountNumber: string
+	number: string
 	houseId: number
 	premisesType:string
 	premisesNumber: string
@@ -34,7 +35,7 @@ function Accounts() {
 					<article key={index}>
 						<hr />
 						<p>{item.id}</p>
-						<p>{item.accountNumber},</p>
+						<p>{item.number},</p>
 						<p>{item.houseId},</p>
 						<p>{item.premisesType},</p>
 						<p>{item.premisesNumber},</p>
@@ -44,6 +45,7 @@ function Accounts() {
 					</article>
 				))}
 			</section>
+			<AccountCreateModal />
 		</main>
 	)
 }

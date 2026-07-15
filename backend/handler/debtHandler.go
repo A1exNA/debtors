@@ -21,8 +21,11 @@ func (h *Handlers) CreateDebtHandler(w http.ResponseWriter, r *http.Request) {
 
 	data := dto.DataDebt{
 		ValueDebt: dto.ValueDebt{
-			AccountNumber: &debt.AccountNumber,
-			ReportDate:    &debt.ReportDate,
+			AccountNumber:  &debt.AccountNumber,
+			OpeningBalance: &debt.OpeningBalance,
+			Accrued:        &debt.Accrued,
+			Paid:           &debt.Paid,
+			ClosingBalance: &debt.ClosingBalance,
 		},
 		Valid: true,
 		Text:  "",
@@ -80,7 +83,6 @@ func (h *Handlers) UpdateDebtHandler(w http.ResponseWriter, r *http.Request) {
 		ValueDebt: dto.ValueDebt{
 			Id:             &debt.Id,
 			AccountNumber:  &debt.AccountNumber,
-			ReportDate:     &debt.ReportDate,
 			OpeningBalance: &debt.OpeningBalance,
 			Accrued:        &debt.Accrued,
 			Paid:           &debt.Paid,

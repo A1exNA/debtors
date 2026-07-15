@@ -8,7 +8,7 @@ type Debt struct {
 }
 
 type DebtCreate struct {
-	AccountNumber  string    `json:"accountNumber"`
+	AccountNumber  int       `json:"accountNumber"`
 	ReportDate     time.Time `json:"reportDate"`
 	OpeningBalance float64   `json:"openingBalance"`
 	Accrued        float64   `json:"accrued"`

@@ -3,6 +3,7 @@ package service
 import (
 	"debtors/dto"
 	"debtors/repository"
+	"time"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
@@ -14,6 +15,8 @@ func CreateDebtService(conn *pgx.Conn, debt dto.DebtCreate, data dto.DataDebt) (
 	if err != nil {
 		return pgconn.CommandTag{}, err
 	}
+
+	debt.ReportDate = time.Now().In(time.FixedZone("MSK", 3*60*60))
 
 	return repository.CreateDebt(conn, debt)
 }
