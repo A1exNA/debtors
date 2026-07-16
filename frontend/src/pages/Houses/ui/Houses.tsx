@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState, useEffect } from "react"
 
 
 interface House {
@@ -11,19 +11,19 @@ function Houses() {
 	const [data, setData] = useState<House[]>([])
 
 
-	const [formData, setFormData] = useState({
+	const [formData, setFormData] = useState<House>({
 		id: 0,
 		address: "",
 		isServiced: false,
 	})
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const { type, value, checked } = event.target
+		const { name, type, value, checked } = event.target
 
-		setFormData((prev) => (
+		setFormData(prev => (
 			type == "checkbox" 
-				? { ...prev, isServiced: checked }
-				: { ...prev, address:value }
+				? { ...prev, [name]: checked }
+				: { ...prev, [name]: value }
 		))
 	}
 
@@ -39,7 +39,10 @@ function Houses() {
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ address: formData.address, isServiced: formData.isServiced }),
+				body: JSON.stringify({
+					address: formData.address,
+					isServiced: formData.isServiced,
+				}),
 			})
 
 			const data = await response.json()
@@ -48,7 +51,7 @@ function Houses() {
 				setFormData({
 					id: 0,
 					address: "",
-					isServiced: false
+					isServiced: false,
 				})
 				closeModule("houses--create")
 				readHouses()
@@ -62,7 +65,13 @@ function Houses() {
 
 	const readHouses = () => {
 		const fetchData = async () => {
-			const response = await fetch("http://localhost:8080/houses")
+			const response = await fetch("http://localhost:8080/houses", {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			})
+
 			const data = await response.json()
 
 			setData(data.data)
@@ -78,7 +87,11 @@ function Houses() {
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ id: formData.id, address: formData.address, isServiced: formData.isServiced }),
+				body: JSON.stringify({
+					id: formData.id,
+					address: formData.address,
+					isServiced: formData.isServiced
+				}),
 			})
 
 			const data = await response.json()
@@ -87,7 +100,7 @@ function Houses() {
 				setFormData({
 					id: 0,
 					address: "",
-					isServiced: false
+					isServiced: false,
 				})
 				closeModule("houses--update")
 				readHouses()
@@ -106,7 +119,9 @@ function Houses() {
 				headers: {
 					"Content-Type": "application:json",
 				},
-				body: JSON.stringify({ id: id }),
+				body: JSON.stringify({
+					id: id
+				}),
 			})
 
 			const data = await response.json()
@@ -129,9 +144,13 @@ function Houses() {
 
 	return (
 		<main className="houses">
-			<button type="button" onClick={() => {(document.getElementById("houses--create") as HTMLDialogElement).showModal()}}>
+			<button
+				type="button"
+				onClick={() => {(document.getElementById("houses--create") as HTMLDialogElement).showModal()}}
+			>
 				Добавить новый дом
 			</button>
+
 			<dialog className="houses--create" id="houses--create">
 				<form id="form">
 					<label>Введите адрес</label>
@@ -149,12 +168,22 @@ function Houses() {
 						onChange={handleChange}
 					/><br />
 
-					<button type="submit" onClick={(e) => { e.preventDefault(); createHouse() }}>
+					<button
+						type="submit"
+						onClick={(e) => { e.preventDefault(); createHouse() }}
+					>
 						Отправить
 					</button>
-					<button type="submit" onClick={(e) => { e.preventDefault(); closeModule("houses--create") }}>Закрыть</button>
+
+					<button
+						type="submit"
+						onClick={(e) => { e.preventDefault(); closeModule("houses--create") }}
+					>
+						Закрыть
+					</button>
 				</form>
 			</dialog>
+
 
 			<section className="houses--counter">
 				<article>Домов - {data?.length}</article>
@@ -167,15 +196,30 @@ function Houses() {
 						<p>{item.id}</p>
 						<p>{item.address},</p>
 						<p>{String(item.isServiced)}</p>
-						<button onClick={() => { (document.getElementById("houses--update") as HTMLDialogElement).showModal(); setFormData({ id: item.id, address: item.address, isServiced: item.isServiced }) }}>Изменить</button>
-						<button onClick={() => (deleteHouse(item.id))}>Удалить</button>
+						<button
+							onClick={() => {
+								(document.getElementById("houses--update") as HTMLDialogElement).showModal();
+								setFormData({
+									id: item.id,
+									address: item.address,
+									isServiced: item.isServiced,
+								})
+							}}
+						>
+							Изменить
+						</button>
+						<button
+							onClick={() => (deleteHouse(item.id))}
+						>
+							Удалить
+						</button>
 						<hr />
 					</article>
 				))}
 			</section>
 
 			<dialog className="houses--update" id="houses--update">
-				<form id="form">
+				<form>
 					<label>Введите адрес</label>
 					<input
 						type="text"
@@ -191,10 +235,18 @@ function Houses() {
 						onChange={handleChange}
 					/><br />
 
-					<button type="submit" onClick={(e) => { e.preventDefault(); updateHouse() }}>
+					<button
+						type="submit"
+						onClick={(e) => { e.preventDefault(); updateHouse() }}
+					>
 						Отправить
 					</button>
-					<button type="submit" onClick={(e) => { e.preventDefault(); closeModule("houses--update") }}>Закрыть</button>
+					<button
+						type="submit"
+						onClick={(e) => { e.preventDefault(); closeModule("houses--update") }}
+					>
+						Закрыть
+					</button>
 				</form>
 			</dialog>
 		</main>

@@ -43,11 +43,13 @@ func main() {
 	http.HandleFunc("GET /accounts", enableCORS(handler.ReadAccountHandler))
 	http.HandleFunc("PUT /accounts", enableCORS(handler.UpdateAccountHandler))
 	http.HandleFunc("DELETE /accounts", enableCORS(handler.DeleteAccountHandler))
+	http.HandleFunc("OPTIONS /accounts", enableCORS(func(w http.ResponseWriter, r *http.Request) {}))
 
 	http.HandleFunc("POST /debts", enableCORS(handler.CreateDebtHandler))
 	http.HandleFunc("GET /debts", enableCORS(handler.ReadDebtHandler))
 	http.HandleFunc("PUT /debts", enableCORS(handler.UpdateDebtHandler))
 	http.HandleFunc("DELETE /debts", enableCORS(handler.DeleteDebtHandler))
+	http.HandleFunc("OPTIONS /debts", enableCORS(func(w http.ResponseWriter, r *http.Request) {}))
 
 	http.ListenAndServe(":8080", nil)
 }
