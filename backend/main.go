@@ -13,7 +13,7 @@ func enableCORS(next http.HandlerFunc) http.HandlerFunc {
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 
-		if r.Method == "OPTIONS" {
+		if r.Method == http.MethodOptions {
 			w.WriteHeader(http.StatusOK)
 			return
 		}
@@ -37,6 +37,7 @@ func main() {
 	http.HandleFunc("GET /houses", enableCORS(handler.ReadHouseHandler))
 	http.HandleFunc("PUT /houses", enableCORS(handler.UpdateHouseHandler))
 	http.HandleFunc("DELETE /houses", enableCORS(handler.DeleteHouseHandler))
+	http.HandleFunc("OPTIONS /houses", enableCORS(func(w http.ResponseWriter, r *http.Request) {}))
 
 	http.HandleFunc("POST /accounts", enableCORS(handler.CreateAccountHandler))
 	http.HandleFunc("GET /accounts", enableCORS(handler.ReadAccountHandler))

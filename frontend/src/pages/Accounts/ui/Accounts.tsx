@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import AccountCreateModal from "../../../features/CreateModal/ui/AccountCreateModal"
 
 interface Account {
 	id: number
@@ -45,7 +44,6 @@ function Accounts() {
 					</article>
 				))}
 			</section>
-			<AccountCreateModal />
 		</main>
 	)
 }
