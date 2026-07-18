@@ -9,7 +9,7 @@ import (
 )
 
 func CreateDebt(conn *pgx.Conn, debt dto.DebtCreate) (pgconn.CommandTag, error) {
-	resp, err := conn.Exec(context.Background(), "INSERT INTO debts (account_number, report_date, opening_balance, accrued, paid, closing_balance) VALUES ($1, $2, $3, $4, $5, $6)", debt.AccountNumber, debt.ReportDate, debt.OpeningBalance, debt.Accrued, debt.Paid, debt.ClosingBalance)
+	resp, err := conn.Exec(context.Background(), "INSERT INTO debts (account_number, report_date, opening_balance, accrued, paid, closing_balance, upload_date) VALUES ($1, $2, $3, $4, $5, $6, $7)", debt.AccountNumber, debt.ReportDate, debt.OpeningBalance, debt.Accrued, debt.Paid, debt.ClosingBalance, debt.UploadDate)
 
 	if err != nil {
 		return pgconn.CommandTag{}, err
@@ -29,7 +29,7 @@ func ReadDebts(conn *pgx.Conn) ([]dto.Debt, error) {
 
 	for resp.Next() {
 		debt := dto.Debt{}
-		resp.Scan(&debt.Id, &debt.AccountNumber, &debt.ReportDate, &debt.OpeningBalance, &debt.Accrued, &debt.Paid, &debt.ClosingBalance)
+		resp.Scan(&debt.Id, &debt.AccountNumber, &debt.ReportDate, &debt.OpeningBalance, &debt.Accrued, &debt.Paid, &debt.ClosingBalance, &debt.UploadDate)
 		debts = append(debts, debt)
 	}
 

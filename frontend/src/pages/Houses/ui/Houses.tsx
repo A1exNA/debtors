@@ -56,7 +56,7 @@ function Houses() {
 				closeModule("houses--create")
 				readHouses()
 			} else {
-				console.log("Error: ", data.data)
+				console.error("Error: ", data.data)
 			}
 		}
 
@@ -74,7 +74,11 @@ function Houses() {
 
 			const data = await response.json()
 
-			setData(data.data)
+			if (data.status === "success") {
+				setData(data.data)
+			} else {
+				console.error("Error: ", data.data)
+			}
 		}
 
 		fetchData()
@@ -105,7 +109,7 @@ function Houses() {
 				closeModule("houses--update")
 				readHouses()
 			} else {
-				console.log("Error: ", data.data)
+				console.error("Error: ", data.data)
 			}
 		}
 
@@ -129,7 +133,7 @@ function Houses() {
 			if (data.status === "success") {
 				readHouses()
 			} else {
-				console.log("Error: ", data.data)
+				console.error("Error: ", data.data)
 			}
 		}
 
@@ -146,7 +150,7 @@ function Houses() {
 		<main className="houses">
 			<button
 				type="button"
-				onClick={() => {(document.getElementById("houses--create") as HTMLDialogElement).showModal()}}
+				onClick={() => (document.getElementById("houses--create") as HTMLDialogElement).showModal()}
 			>
 				Добавить новый дом
 			</button>
@@ -194,11 +198,13 @@ function Houses() {
 					<article key={index}>
 						<hr />
 						<p>{item.id}</p>
-						<p>{item.address},</p>
+						<p>{item.address}</p>
 						<p>{String(item.isServiced)}</p>
+
 						<button
+							type="button"
 							onClick={() => {
-								(document.getElementById("houses--update") as HTMLDialogElement).showModal();
+								(document.getElementById("houses--update") as HTMLDialogElement).showModal()
 								setFormData({
 									id: item.id,
 									address: item.address,
@@ -208,8 +214,10 @@ function Houses() {
 						>
 							Изменить
 						</button>
+
 						<button
-							onClick={() => (deleteHouse(item.id))}
+						type="button"
+							onClick={() => deleteHouse(item.id)}
 						>
 							Удалить
 						</button>

@@ -48,4 +48,5 @@ type ValueDebt struct {
 	Accrued        *float64
 	Paid           *float64
 	ClosingBalance *float64
+	UploadDate     *time.Time
 }

@@ -14,6 +14,7 @@ type DebtCreate struct {
 	Accrued        float64   `json:"accrued"`
 	Paid           float64   `json:"paid"`
 	ClosingBalance float64   `json:"closingBalance"`
+	UploadDate     time.Time `json:"uploadDate"`
 }
 
 type DebtDelete struct {

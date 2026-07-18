@@ -16,7 +16,7 @@ func CreateDebtService(conn *pgx.Conn, debt dto.DebtCreate, data dto.DataDebt) (
 		return pgconn.CommandTag{}, err
 	}
 
-	debt.ReportDate = time.Now().In(time.FixedZone("MSK", 3*60*60))
+	debt.UploadDate = time.Now()
 
 	return repository.CreateDebt(conn, debt)
 }

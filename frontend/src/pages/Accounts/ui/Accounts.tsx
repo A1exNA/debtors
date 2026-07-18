@@ -69,7 +69,7 @@ function Accounts() {
 				closeModule("accounts--create")
 				readAccounts()
 			} else {
-				console.log("Error: ", data.data)
+				console.error("Error: ", data.data)
 			}
 		}
 
@@ -90,7 +90,7 @@ function Accounts() {
 			if (data.status === "success") {
 				setData(data.data)
 			} else {
-				console.log("Error: ", data.data)
+				console.error("Error: ", data.data)
 			}
 		}
 
@@ -130,7 +130,7 @@ function Accounts() {
 				closeModule("accounts--update")
 				readAccounts()
 			} else {
-				console.log("Error: ", data.data)
+				console.error("Error: ", data.data)
 			}
 		}
 
@@ -154,7 +154,7 @@ function Accounts() {
 			if (data.status === "success") {
 				readAccounts()
 			} else {
-				console.log("Error: ", data.data)
+				console.error("Error: ", data.data)
 			}
 		}
 
@@ -170,14 +170,14 @@ function Accounts() {
 		<main className="account">
 			<button
 				type="button"
-				onClick={() => {(document.getElementById("accounts--create") as HTMLDialogElement).showModal()}}
+				onClick={() => (document.getElementById("accounts--create") as HTMLDialogElement).showModal()}
 			>
 				Добавить новый лицевой счет
 			</button>
 
 			<dialog className="accounts--create" id="accounts--create">
 				<form>
-					<label>Введите № лицевого счета</label>
+					<label>Введите номер лицевого счета</label>
 					<input
 						type="number"
 						name="number"
@@ -252,9 +252,11 @@ function Accounts() {
 						<p>{item.premisesNumber}</p>
 						<p>{item.ownerName}</p>
 						<p>{item.ownerPhone}</p>
+
 						<button
+							type="button"
 							onClick={() => {
-								(document.getElementById("accounts--update") as HTMLDialogElement).showModal();
+								(document.getElementById("accounts--update") as HTMLDialogElement).showModal()
 								setFormData({
 									id: item.id,
 									number: item.number,
@@ -268,8 +270,10 @@ function Accounts() {
 						>
 							Изменить
 						</button>
+
 						<button
-							onClick={() => (deleteAccount(item.id))}
+							type="button"
+							onClick={() => deleteAccount(item.id)}
 						>
 							Удалить
 						</button>
@@ -280,7 +284,7 @@ function Accounts() {
 
 			<dialog className="accounts--update" id="accounts--update">
 				<form>
-					<label>Введите № лицевого счета</label>
+					<label>Введите номер лицевого счета</label>
 					<input
 						type="number"
 						name="number"
