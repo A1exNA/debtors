@@ -76,26 +76,6 @@ func ValidateDataAccount(account dto.DataAccount) error {
 		}
 	}
 
-	if account.OwnerName != nil {
-		if *account.OwnerName == "" {
-			account.Valid = false
-			account.Text = account.Text + "OwnerName не введен. "
-		} else if utf8.RuneCountInString(*account.OwnerName) > 100 {
-			account.Valid = false
-			account.Text = account.Text + "OwnerName слишком длинный. "
-		}
-	}
-
-	if account.OwnerPhone != nil {
-		if *account.OwnerPhone == "" {
-			account.Valid = false
-			account.Text = account.Text + "OwnerPhone не введен. "
-		} else if utf8.RuneCountInString(*account.OwnerPhone) > 15 {
-			account.Valid = false
-			account.Text = account.Text + "OwnerPhone слишком длинный. "
-		}
-	}
-
 	account.Text = strings.TrimSpace(account.Text)
 
 	if account.Text != "" {

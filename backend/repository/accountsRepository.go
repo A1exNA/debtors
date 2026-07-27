@@ -9,7 +9,7 @@ import (
 )
 
 func CreateAccount(conn *pgx.Conn, account dto.AccountCreate) (pgconn.CommandTag, error) {
-	resp, err := conn.Exec(context.Background(), "INSERT INTO accounts (number, house_id, premises_type, premises_number, owner_name, owner_phone) VALUES ($1, $2, $3, $4, $5, $6)", account.Number, account.HouseId, account.PremisesType, account.PremisesNumber, account.OwnerName, account.OwnerPhone)
+	resp, err := conn.Exec(context.Background(), "INSERT INTO accounts (number, house_id, premises_type, premises_number) VALUES ($1, $2, $3, $4)", account.Number, account.HouseId, account.PremisesType, account.PremisesNumber)
 
 	if err != nil {
 		return pgconn.CommandTag{}, err
@@ -29,7 +29,7 @@ func ReadAccounts(conn *pgx.Conn) ([]dto.Account, error) {
 
 	for resp.Next() {
 		account := dto.Account{}
-		resp.Scan(&account.Id, &account.Number, &account.HouseId, &account.PremisesType, &account.PremisesNumber, &account.OwnerName, &account.OwnerPhone)
+		resp.Scan(&account.Id, &account.Number, &account.HouseId, &account.PremisesType, &account.PremisesNumber)
 		accounts = append(accounts, account)
 	}
 
@@ -37,7 +37,7 @@ func ReadAccounts(conn *pgx.Conn) ([]dto.Account, error) {
 }
 
 func UpdateAccount(conn *pgx.Conn, account dto.Account) (pgconn.CommandTag, error) {
-	resp, err := conn.Exec(context.Background(), "UPDATE accounts SET number = $2, house_id = $3, premises_type = $4, premises_number = $5, owner_name = $6, owner_phone = $7 WHERE id = $1", account.Id, account.Number, account.HouseId, account.PremisesType, account.PremisesNumber, account.OwnerName, account.OwnerPhone)
+	resp, err := conn.Exec(context.Background(), "UPDATE accounts SET number = $2, house_id = $3, premises_type = $4, premises_number = $5 WHERE id = $1", account.Id, account.Number, account.HouseId, account.PremisesType, account.PremisesNumber)
 
 	if err != nil {
 		return pgconn.CommandTag{}, err

@@ -7,8 +7,6 @@ interface Account {
 	houseId: number
 	premisesType: string
 	premisesNumber: string
-	ownerName: string
-	ownerPhone: string
 }
 
 function Accounts() {
@@ -21,8 +19,6 @@ function Accounts() {
 		houseId: 0,
 		premisesType: "",
 		premisesNumber: "",
-		ownerName: "",
-		ownerPhone: "",
 	})
 
 
@@ -49,8 +45,6 @@ function Accounts() {
 					houseId: Number(formData.houseId),
 					premisesType: formData.premisesType === "" ? null : formData.premisesType,
 					premisesNumber: formData.premisesNumber === "" ? null : formData.premisesNumber,
-					ownerName: formData.ownerName === "" ? null : formData.ownerName,
-					ownerPhone: formData.ownerPhone === "" ? null : formData.ownerPhone,
 				}),
 			})
 
@@ -63,8 +57,6 @@ function Accounts() {
 					houseId: 0,
 					premisesType: "",
 					premisesNumber: "",
-					ownerName: "",
-					ownerPhone: "",
 				})
 				closeModule("accounts--create")
 				readAccounts()
@@ -110,8 +102,6 @@ function Accounts() {
 					houseId: Number(formData.houseId),
 					premisesType: formData.premisesType === "" ? null : formData.premisesType,
 					premisesNumber: formData.premisesNumber === "" ? null : formData.premisesNumber,
-					ownerName: formData.ownerName === "" ? null : formData.ownerName,
-					ownerPhone: formData.ownerPhone === "" ? null : formData.ownerPhone,
 				}),
 			})
 
@@ -124,8 +114,6 @@ function Accounts() {
 					houseId: 0,
 					premisesType: "",
 					premisesNumber: "",
-					ownerName: "",
-					ownerPhone: "",
 				})
 				closeModule("accounts--update")
 				readAccounts()
@@ -205,20 +193,6 @@ function Accounts() {
 						value={formData.premisesNumber}
 						onChange={handleChange}
 					/><br />
-					<label>Введите ФИО собственника</label>
-					<input
-						type="text"
-						name="ownerName"
-						value={formData.ownerName}
-						onChange={handleChange}
-					/><br />
-					<label>Введите номер телефона собственника</label>
-					<input
-						type="text"
-						name="ownerPhone"
-						value={formData.ownerPhone}
-						onChange={handleChange}
-					/><br />
 
 					<button
 						type="submit"
@@ -250,8 +224,6 @@ function Accounts() {
 						<p>{item.houseId}</p>
 						<p>{item.premisesType}</p>
 						<p>{item.premisesNumber}</p>
-						<p>{item.ownerName}</p>
-						<p>{item.ownerPhone}</p>
 
 						<button
 							type="button"
@@ -263,8 +235,6 @@ function Accounts() {
 									houseId: item.houseId,
 									premisesType: item.premisesType ?? "",
 									premisesNumber: item.premisesNumber ?? "",
-									ownerName: item.ownerName ?? "",
-									ownerPhone: item.ownerPhone ?? "",
 								})
 							}}
 						>
@@ -310,20 +280,6 @@ function Accounts() {
 						type="text"
 						name="premisesNumber"
 						value={formData.premisesNumber}
-						onChange={handleChange}
-					/><br />
-					<label>Введите ФИО собственника</label>
-					<input
-						type="text"
-						name="ownerName"
-						value={formData.ownerName}
-						onChange={handleChange}
-					/><br />
-					<label>Введите номер телефона собственника</label>
-					<input
-						type="text"
-						name="ownerPhone"
-						value={formData.ownerPhone}
 						onChange={handleChange}
 					/><br />
 

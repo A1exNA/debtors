@@ -30,8 +30,6 @@ type ValueAccount struct {
 	HouseId        *int
 	PremisesType   *string
 	PremisesNumber *string
-	OwnerName      *string
-	OwnerPhone     *string
 }
 
 type DataDebt struct {

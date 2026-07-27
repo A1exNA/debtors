@@ -157,11 +157,7 @@ func ValidateDataAccountUpdate(conn *pgx.Conn, account dto.DataAccount) error {
 			(value.PremisesType == nil && account.PremisesType == nil ||
 				value.PremisesType != nil && account.PremisesType != nil && *value.PremisesType == *account.PremisesType) &&
 			(value.PremisesNumber == nil && account.PremisesNumber == nil ||
-				value.PremisesNumber != nil && account.PremisesNumber != nil && *value.PremisesNumber == *account.PremisesNumber) &&
-			(value.OwnerName == nil && account.OwnerName == nil ||
-				value.OwnerName != nil && account.OwnerName != nil && *value.OwnerName == *account.OwnerName) &&
-			(value.OwnerPhone == nil && account.OwnerPhone == nil ||
-				value.OwnerPhone != nil && account.OwnerPhone != nil && *value.OwnerPhone == *account.OwnerPhone) {
+				value.PremisesNumber != nil && account.PremisesNumber != nil && *value.PremisesNumber == *account.PremisesNumber) {
 			account.Text = account.Text + "Данные не изменились. "
 			account.Valid = false
 		}
